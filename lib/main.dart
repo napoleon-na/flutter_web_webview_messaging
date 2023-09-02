@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:web_webview_messaging/logger.dart';
+import 'package:web_webview_messaging/webview.dart';
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+import 'package:webview_flutter_web/webview_flutter_web.dart';
 
 void main() {
+  WebViewPlatform.instance = WebWebViewPlatform();
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,16 +42,14 @@ class MyHomePage extends StatelessWidget {
           children: <Widget>[
             TextButton(
               onPressed: () async {
-                logger.info('Button pressed');
-                // result = await showModalBottomSheet(
-                //   context: context,
-                //   isScrollControlled: true,
-                //   builder: (BuildContext context) {
-                //     return MessagingWebView(
-                //       param: 'test',
-                //     );
-                //   },
-                // );
+                final result = await showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return const WebViewExample();
+                  },
+                );
+                logger.info('Result: $result');
               },
               child: const Text('Launch WebView'),
             ),
@@ -58,5 +59,3 @@ class MyHomePage extends StatelessWidget {
     );
   }
 }
-
-// class MessagingWebView extends Sta
